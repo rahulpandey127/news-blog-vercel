@@ -25,11 +25,12 @@ let index = async (req, res, next) => {
   });
 
   let newsCategory = await newsModel.distinct("category");
-
+  
   let category = await categoryModel.find({ _id: { $in: newsCategory } });
 
   try {
     let settings = await settingModel.find();
+    
     if (!settings) {
       return next(errorMessage("Setting Not Found", 404));
     }
@@ -45,7 +46,10 @@ let articleByCategories = async (req, res, next) => {
     if (!category) {
       return next(errorMessage("Category Not Found", 404));
     }
-
+    let settings = await settingModel.find();
+    if (!settings) {
+      return next(errorMessage("Setting Not Found", 404));
+    }
     const paginatedNews = await paginate(
       newsModel,
       { category: category._id },
@@ -66,7 +70,7 @@ let articleByCategories = async (req, res, next) => {
       .sort({ createdAt: -1 });
     console.log(paginatedNews);
     res.render("category", {
-      // settings,
+      settings,
       // category,
       news,
       paginatedNews,
@@ -90,7 +94,7 @@ let singleArticle = async (req, res) => {
   let comments = await commentModel
     .find({ article: req.params.id, status: "approved" })
     .sort({ createdAt: -1 });
-  console.log(comments);
+  
   res.render("single", { news, comments });
 };
 let search = async (req, res) => {
@@ -147,7 +151,6 @@ let author = async (req, res) => {
   });
 };
 let addComments = async (req, res) => {
-  console.log(req.body);
 
   try {
     let comment = new commentModel({ ...req.body, article: req.params.id });
