@@ -1,0 +1,72 @@
+<!-- post-container -->
+<div class="post-container">
+  <div class="post-content single-post">
+    <h3><%=news.title%></h3>
+    <div class="post-information">
+      <span>
+        <i class="fa fa-tags" aria-hidden="true"></i>
+        <a href="/category/<%=news.category.slug%>"><%=news.category.name%></a>
+      </span>
+      <span>
+        <i class="fa fa-user" aria-hidden="true"></i>
+        <a href="/author/<%=news.author._id%>"><%=news.author.fullname%></a>
+      </span>
+      <span>
+        <i class="fa fa-calendar" aria-hidden="true"></i>
+        <%=new Date(news.createdAt).toLocaleDateString('en-GB', { day:
+        '2-digit', month: 'long', year: 'numeric' })%>
+      </span>
+    </div>
+    <img class="single-feature-image" src="/uploads/<%=news.image%>" alt="" />
+    <p class="description"><%-news.content%></p>
+  </div>
+</div>
+<!-- /post-container -->
+
+<!-- Comments Section -->
+<div class="comments-section mt-5">
+  <h3>Comments</h3>
+
+  <!-- Comment Form -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <form action="/add-comments/<%=news._id%>" method="POST">
+        <div class="mb-3">
+          <label class="form-label">Name</label>
+          <input type="text" class="form-control" name="name" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control" name="email" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Comment</label>
+          <textarea
+            class="form-control"
+            name="content"
+            rows="3"
+            required
+          ></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Comment</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Display Comments -->
+  <div class="comments-list">
+    <%comments.forEach((comment) => {%> 
+    <div class="card mb-3">
+      <div class="card-body">
+        <h6 class="card-subtitle mb-2 text-muted"><%=comment.name%></h6>
+        <p class="card-text"><%=comment.content%></p>
+        <small class="text-muted"
+          >Posted on <%=new Intl.DateTimeFormat('en-IN', { year: 'numeric',
+          month: 'long', day: 'numeric' }).format(new
+          Date(comment.createdAt))%></small
+        >
+      </div>
+    </div>
+  <%})%>
+  </div>
+</div>

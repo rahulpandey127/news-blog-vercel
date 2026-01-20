@@ -1,0 +1,97 @@
+<div id="admin-content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="admin-heading"><i class="fa fa-cog"></i> Settings</h1>
+      </div>
+      <div class="col-md-6 mx-auto">
+        <div class="card">
+          <h5 class="card-header">Settings</h5>
+          <div class="card-body">
+            <form
+              action="/admin/savesetting"
+              method="POST"
+              enctype="multipart/form-data"
+            >
+              <div class="mb-3">
+                <label for="website_title" class="form-label"
+                  >Website Title</label
+                >
+                <%if(settings.length===0||!settings[0].website_title||settings[0].website_title.trim()==""){%>
+                <input
+                  type="text"
+                  name="website_title"
+                  class="form-control"
+                  autocomplete="off"
+                  required="true"
+                  id="website_title"
+                />
+                <%}else{%>
+                <input
+                  type="text"
+                  name="website_title"
+                  class="form-control"
+                  autocomplete="off"
+                  required="true"
+                  id="website_title"
+                  value="<%=settings[0].website_title%>"
+                />
+                <%}%>
+              </div>
+              <div class="mb-3">
+                <label for="website_logo" class="form-label">Upload Logo</label>
+                <%if(settings.length===0){%> <%}else{%>
+                <br />
+                <div>
+                  <img
+                    src="/uploads/<%=settings[0].website_logo%>"
+                    alt=""
+                    width="100px"
+                    height="100px"
+                  />
+                </div>
+                <br />
+                <%}%>
+
+                <input
+                  type="file"
+                  name="website_logo"
+                  class="form-control"
+                  required="true"
+                  id="website_logo"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="footer_description" class="form-label"
+                  >Footer Description</label
+                >
+                <%if(settings.length===0||!settings[0].footer_description||settings[0].footer_description.trim()==""){%>
+                <input
+                  type="text"
+                  name="footer_description"
+                  class="form-control"
+                  autocomplete="off"
+                  required="true"
+                  id="footer_description"
+                />
+                <%}else{%>
+                <input
+                  type="text"
+                  name="footer_description"
+                  class="form-control"
+                  autocomplete="off"
+                  required="true"
+                  id="footer_description"
+                  value="<%=settings[0].footer_description%>"
+                />
+                <%}%>
+              </div>
+
+              <input type="submit" class="btn btn-primary" value="Save" />
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
