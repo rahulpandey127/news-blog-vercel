@@ -8,6 +8,7 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
 const minifyHTML = require("express-minify-html-terser");
+const compression = require("compression");
 const app = express();
 
 dotenv.config();
@@ -46,6 +47,17 @@ app.use(
     cookie: { secure: false },
   }),
 );
+
+app.use(compression({ filter: shouldCompress }));
+function shouldCompress(req, res) {
+  if (req.headers["x-no-compression"]) {
+    // don't compress responses with this request header
+    return false;
+  }
+
+  // fallback to standard filter function
+  return compression.filter(req, res);
+}
 
 // app.use(expressLayouts());
 app.use("/admin", (req, res, next) => {
