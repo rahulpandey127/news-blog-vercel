@@ -7,6 +7,7 @@ const connectflash = require("connect-flash");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
+const minifyHTML = require("express-minify-html-terser");
 const app = express();
 
 dotenv.config();
@@ -20,6 +21,21 @@ app.use("/uploads", express.static("uploads"));
 app.use(expressLayouts);
 app.set("layout", "layout");
 app.set("view engine", "ejs");
+
+app.use(
+  minifyHTML({
+    override: true,
+    exception_url: false,
+    htmlMinifier: {
+      removeComments: true,
+      collapseWhitespace: true,
+      collapseBooleanAttributes: true,
+      removeAttributeQuotes: true,
+      removeEmptyAttributes: true,
+      minifyJS: true,
+    },
+  }),
+); // Minify HTML
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(

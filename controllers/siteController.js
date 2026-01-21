@@ -24,17 +24,8 @@ let index = async (req, res, next) => {
     sort: "-createdAt",
   });
 
-  let newsCategory = await newsModel.distinct("category");
-  
-  let category = await categoryModel.find({ _id: { $in: newsCategory } });
-
   try {
-    let settings = await settingModel.find();
-    
-    if (!settings) {
-      return next(errorMessage("Setting Not Found", 404));
-    }
-    res.render("index", { category, paginatedNews, settings });
+    res.render("index", { paginatedNews });
   } catch (err) {
     next(err);
   }
@@ -94,7 +85,7 @@ let singleArticle = async (req, res) => {
   let comments = await commentModel
     .find({ article: req.params.id, status: "approved" })
     .sort({ createdAt: -1 });
-  
+
   res.render("single", { news, comments });
 };
 let search = async (req, res) => {
@@ -151,7 +142,6 @@ let author = async (req, res) => {
   });
 };
 let addComments = async (req, res) => {
-
   try {
     let comment = new commentModel({ ...req.body, article: req.params.id });
     await comment.save();
