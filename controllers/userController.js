@@ -105,17 +105,18 @@ let settings = async (req, res, next) => {
   }
 };
 
+//save settings
 let savesetting = async (req, res, next) => {
   let { website_title, footer_description } = req.body;
 
   try {
     let findImg = await settingModel.find();
     let website_logo = req.file ? req.file.filename : null;
-    console.log(findImg);
+
     if (findImg.length != 0 && req.file) {
       let filepath = path.join(
         __dirname,
-        "../uploads/" + findImg[0].website_logo
+        "../uploads/" + findImg[0].website_logo,
       );
 
       fs.unlinkSync(filepath);
@@ -128,12 +129,12 @@ let savesetting = async (req, res, next) => {
         footer_description,
         website_logo,
       },
-      { new: true, upsert: true }
+      { new: true, upsert: true },
     );
 
     res.redirect("/admin/settings");
   } catch (err) {
-    console.log(err.message);
+    next(err);
   }
 };
 
