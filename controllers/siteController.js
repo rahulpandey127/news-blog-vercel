@@ -16,6 +16,7 @@ let index = async (req, res, next) => {
   //   .populate("category", { name: 1, slug: 1 })
   //   .sort({ createdAt: -1 });
   let settings = await settingModel.find();
+  let category = await categoryModel.find();
   let paginatedNews = await paginate(newsModel, {}, req.query, {
     populate: [
       { path: "category", select: "name slug" },
@@ -25,7 +26,7 @@ let index = async (req, res, next) => {
   });
   console.log(paginatedNews);
   try {
-    res.render("index", { paginatedNews, settings });
+    res.render("index", { paginatedNews, settings, category });
   } catch (err) {
     next(err);
   }
