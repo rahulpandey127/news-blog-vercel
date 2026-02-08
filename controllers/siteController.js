@@ -73,7 +73,7 @@ let articleByCategories = async (req, res, next) => {
     next(err);
   }
 };
-let singleArticle = async (req, res) => {
+let singleArticle = async (req, res, next) => {
   let news = await newsModel
     .findById(req.params.id)
     .populate("author", "fullname")
