@@ -111,7 +111,7 @@ let savesetting = async (req, res, next) => {
   try {
     let findImg = await settingModel.find();
     let website_logo = req.file ? req.file.filename : null;
-
+    console.log(findImg);
     if (findImg.length != 0 && req.file) {
       let filepath = path.join(
         __dirname,
@@ -133,7 +133,7 @@ let savesetting = async (req, res, next) => {
 
     res.redirect("/admin/settings");
   } catch (err) {
-    next(err);
+    console.log(err.message);
   }
 };
 

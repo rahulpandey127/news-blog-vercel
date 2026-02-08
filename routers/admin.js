@@ -56,7 +56,7 @@ router.post(
   isLogged,
   isAdmin,
   upload.single("website_logo"),
-  savesetting
+  savesetting,
 );
 
 //User CRUD Routes
@@ -75,7 +75,7 @@ router.post(
   isLogged,
   isAdmin,
   isValid.categoryValidate,
-  addCategory
+  addCategory,
 );
 router.get("/update-category/:id", isLogged, isAdmin, updateCategoryPage);
 router.post("/update-category/:id", isLogged, isAdmin, updateCategory);
@@ -89,7 +89,7 @@ router.post(
   isLogged,
   upload.single("image"),
   isValid.articleValidate,
-  addArticle
+  addArticle,
 );
 router.get("/update-article/:id", isLogged, updateArticlePage);
 router.post(
@@ -97,7 +97,7 @@ router.post(
   isLogged,
   upload.single("image"),
   isValid.articleValidate,
-  updateArticle
+  updateArticle,
 );
 router.delete("/delete-article/:id", isLogged, deleteArticle);
 
