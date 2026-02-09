@@ -1,5 +1,4 @@
 let mongoose = require("mongoose");
-
 let categoryModel = require("../models/Category");
 let newsModel = require("../models/News");
 let userModel = require("../models/User");
@@ -9,6 +8,7 @@ let errorMessage = require("../utils/error-message");
 let paginate = require("../utils/paginate");
 let createError = require("../utils/error-message");
 
+//
 let index = async (req, res, next) => {
   // let news = await newsModel
   //   .find()
