@@ -9,7 +9,6 @@ let errorMessage = require("../utils/error-message");
 let paginate = require("../utils/paginate");
 let createError = require("../utils/error-message");
 
-//
 let index = async (req, res, next) => {
   // let news = await newsModel
   //   .find()
