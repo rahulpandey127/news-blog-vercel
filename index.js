@@ -58,7 +58,7 @@ function shouldCompress(req, res) {
   // fallback to standard filter function
   return compression.filter(req, res);
 }
-
+//
 // app.use(expressLayouts());
 app.use("/admin", (req, res, next) => {
   res.locals.layout = "admin/layout";
