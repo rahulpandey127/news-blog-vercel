@@ -73,7 +73,7 @@ let articleByCategories = async (req, res, next) => {
       .populate("author", "fullname")
       .populate("category", { name: 1, slug: 1 })
       .sort({ createdAt: -1 });
-    console.log("category", category);
+    console.log("category1", category);
     res.render("category", {
       settings,
       // category,
