@@ -76,7 +76,6 @@ let articleByCategories = async (req, res, next) => {
     console.log("category1", category);
     res.render("category", {
       settings,
-      // category,
       news,
       paginatedNews,
       category: [category],

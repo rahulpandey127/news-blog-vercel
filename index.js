@@ -71,7 +71,7 @@ app.use("/admin", require("./routers/admin"));
 
 app.use("/", require("./routers/frontend"));
 
-let port = process.env.PORT || 3001;
+let port = process.env.PORT;
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
