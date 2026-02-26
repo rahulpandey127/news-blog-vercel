@@ -48,8 +48,9 @@
           <div class="col-md-12">
             <ul class="menu">
               <li><a href="/">Home</a></li>
-              <%[...category].forEach((category) => {%>
-                   <li><a href="/category/<%=category.slug%>"><%=category.name%></a></li>
+              
+              <%category.forEach((item) => {%>
+              <li><a href="/category/<%=item.slug%>"><%=item.name%></a></li>
               <%})%>
             </ul>
           </div>
