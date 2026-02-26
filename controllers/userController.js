@@ -71,6 +71,9 @@ let adminLogin = async (req, res, next) => {
 let dashboard = async (req, res, next) => {
   try {
     let settings = await settingModel.find();
+    if (!settings) {
+      return next(errorMessage("Setting Not Found", 404));
+    }
     let articles;
     if (req.role == "author") {
       articles = await newsModel.countDocuments({ author: req.id });
@@ -151,6 +154,9 @@ let allUser = async (req, res, next) => {
     let users = await userModel.find({});
 
     let settings = await settingModel.find();
+    if (!settings) {
+      return next(errorMessage("Setting Not Found", 404));
+    }
     if (!users) {
       return next(errorMessage("User Not Found", 404));
     }
@@ -174,6 +180,9 @@ let addUserPage = async (req, res, next) => {
 let addUser = async (req, res, next) => {
   let errors = validationResult(req);
   let settings = await settingModel.find();
+  if (!settings) {
+    return next(errorMessage("Setting Not Found", 404));
+  }
   if (!errors.isEmpty()) {
     console.log(errors.isEmpty());
     // return res.status(400).json({ errors: errors.array() });
