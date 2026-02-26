@@ -16,7 +16,11 @@ let index = async (req, res, next) => {
   //   .populate("category", { name: 1, slug: 1 })
   //   .sort({ createdAt: -1 });
   let settings = await settingModel.find();
+
   let category = await categoryModel.find();
+  if (!settings) {
+    return next(errorMessage("Setting Not Found", 404));
+  }
 
   latestNews = await newsModel
     .find()

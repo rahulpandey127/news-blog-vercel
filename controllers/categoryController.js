@@ -24,6 +24,9 @@ let allCategory = async (req, res, next) => {
   try {
     let categories = await categoryModel.find({});
     let settings = await settingModel.find();
+    if (!settings) {
+      return next(errorMessage("Setting Not Found", 404));
+    }
 
     if (!categories) {
       return next(errorMessage("Category Not Found", 404));
@@ -68,12 +71,14 @@ let updateCategory = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-
 };
 let updateCategoryPage = async (req, res, next) => {
   try {
     let category = await categoryModel.findById(req.params.id);
     let settings = await settingModel.find();
+    if (!settings) {
+      return next(errorMessage("Setting Not Found", 404));
+    }
     if (!category) {
       return next(errorMessage("Category Not Found", 404));
     }

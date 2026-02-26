@@ -84,6 +84,9 @@ let addArticle = async (req, res, next) => {
 let updateArticlePage = async (req, res, next) => {
   let id = req.params.id;
   let settings = await settingModel.find();
+  if (!settings) {
+    return next(errorMessage("Setting Not Found", 404));
+  }
   try {
     let article = await newsModel
       .findById(id)
@@ -115,6 +118,9 @@ let updateArticlePage = async (req, res, next) => {
 let updateArticle = async (req, res, next) => {
   let categories = await categoryModel.find({});
   let settings = await settingModel.find();
+  if (!settings) {
+    return next(errorMessage("Setting Not Found", 404));
+  }
   let errors = validationResult(req);
   if (!errors.isEmpty()) {
     // return res.status(400).json({ errors: errors.array() });
