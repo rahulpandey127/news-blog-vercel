@@ -3,6 +3,7 @@ let newsModel = require("../models/News");
 let settingModel = require("../models/Setting");
 let errorMessage = require("../utils/error-message");
 let { validationResult } = require("express-validator");
+const cloudinary = require("cloudinary").v2;
 let path = require("path");
 let fs = require("fs");
 
@@ -62,8 +63,10 @@ let addArticle = async (req, res, next) => {
   }
   try {
     let { title, content, category } = req.body;
-    let image = req.file.filename;
-
+    // let image = req.file.filename;
+    let imageFile = req.file;
+    const uploadImage = await cloudinary.uploader.upload(imageFile.path);
+    let image = uploadImage.secure_url;
     let article = new newsModel({
       title,
       content,
@@ -140,12 +143,9 @@ let updateArticle = async (req, res, next) => {
       category,
       author: req.id,
     };
-    if (req.file) {
-      let imagepath = path.join(__dirname, "../uploads/" + article.image);
-      console.log(imagepath);
-      fs.unlinkSync(imagepath);
-      updateData.image = req.file.filename;
-    }
+    let imageFile = req.file;
+    const website_logo = await cloudinary.uploader.upload(imageFile.path);
+    updateData.image = website_logo.secure_url;
 
     await newsModel.findByIdAndUpdate(req.params.id, updateData);
 

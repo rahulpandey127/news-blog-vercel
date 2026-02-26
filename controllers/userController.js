@@ -8,6 +8,7 @@ let dotenv = require("dotenv");
 let cookie = require("cookie-parser");
 let path = require("path");
 let fs = require("fs");
+const cloudinary = require("cloudinary").v2;
 let errorMessage = require("../utils/error-message");
 let { validationResult } = require("express-validator");
 dotenv.config();
@@ -110,24 +111,26 @@ let savesetting = async (req, res, next) => {
   let { website_title, footer_description } = req.body;
 
   try {
-    let findImg = await settingModel.find();
-    let website_logo = req.file ? req.file.filename : null;
+    // let findImg = await settingModel.find();
+    // let website_logo = req.file ? req.file.filename : null;
+    let imageFile = req.file;
+    const website_logo = await cloudinary.uploader.upload(imageFile.path);
 
-    if (findImg.length != 0 && req.file) {
-      let filepath = path.join(
-        __dirname,
-        "../uploads/" + findImg[0].website_logo,
-      );
+    // if (findImg.length != 0 && req.file) {
+    //   let filepath = path.join(
+    //     __dirname,
+    //     "../uploads/" + findImg[0].website_logo,
+    //   );
 
-      fs.unlinkSync(filepath);
-    }
+    //   fs.unlinkSync(filepath);
+    // }
 
     let saveData = await settingModel.findOneAndUpdate(
       {},
       {
         website_title,
         footer_description,
-        website_logo,
+        website_logo: website_logo.secure_url,
       },
       { new: true, upsert: true },
     );

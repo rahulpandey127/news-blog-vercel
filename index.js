@@ -9,6 +9,7 @@ const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
 const minifyHTML = require("express-minify-html-terser");
 const compression = require("compression");
+const connectCloudinary = require("./config/cloudinary.js");
 const app = express();
 
 dotenv.config();
@@ -17,6 +18,7 @@ app.use(cookieParser());
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(connectflash());
+connectCloudinary();
 app.use("/uploads", express.static("uploads"));
 
 app.use(expressLayouts);

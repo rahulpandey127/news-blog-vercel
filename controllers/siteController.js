@@ -32,7 +32,7 @@ let index = async (req, res, next) => {
     ],
     sort: "-createdAt",
   });
-  console.log(paginatedNews);
+  console.log("hello", paginatedNews);
   try {
     res.render("index", { paginatedNews, settings, category, latestNews });
   } catch (err) {
@@ -94,7 +94,7 @@ let singleArticle = async (req, res, next) => {
   let comments = await commentModel
     .find({ article: req.params.id, status: "approved" })
     .sort({ createdAt: -1 });
-
+  console.log("news", news);
   res.render("single", { news, comments });
 };
 let search = async (req, res) => {
