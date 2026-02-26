@@ -15,29 +15,30 @@ let index = async (req, res, next) => {
   //   .populate("author", "fullname")
   //   .populate("category", { name: 1, slug: 1 })
   //   .sort({ createdAt: -1 });
-  let settings = await settingModel.find();
-
-  let category = await categoryModel.find();
-  if (!settings) {
-    return next(errorMessage("Setting Not Found", 404));
-  }
-
-  latestNews = await newsModel
-    .find()
-    .populate("author", "fullname")
-    .populate("category", { name: 1, slug: 1 })
-    .sort({ createdAt: -1 })
-    .limit(5);
-
-  let paginatedNews = await paginate(newsModel, {}, req.query, {
-    populate: [
-      { path: "category", select: "name slug" },
-      { path: "author", select: "fullname" },
-    ],
-    sort: "-createdAt",
-  });
-  console.log("hello", paginatedNews);
   try {
+    let settings = await settingModel.find();
+
+    let category = await categoryModel.find();
+    if (!settings) {
+      return next(errorMessage("Setting Not Found", 404));
+    }
+
+    latestNews = await newsModel
+      .find()
+      .populate("author", "fullname")
+      .populate("category", { name: 1, slug: 1 })
+      .sort({ createdAt: -1 })
+      .limit(5);
+
+    let paginatedNews = await paginate(newsModel, {}, req.query, {
+      populate: [
+        { path: "category", select: "name slug" },
+        { path: "author", select: "fullname" },
+      ],
+      sort: "-createdAt",
+    });
+    console.log("category", category);
+
     res.render("index", { paginatedNews, settings, category, latestNews });
   } catch (err) {
     next(err);
@@ -72,12 +73,13 @@ let articleByCategories = async (req, res, next) => {
       .populate("author", "fullname")
       .populate("category", { name: 1, slug: 1 })
       .sort({ createdAt: -1 });
-    console.log(paginatedNews);
+    console.log("category", category);
     res.render("category", {
       settings,
       // category,
       news,
       paginatedNews,
+      category: [category],
       searchQuery,
       query: req.query,
     });
